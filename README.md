@@ -10,7 +10,7 @@ source .venv/bin/activate
 ```
 For the paths used inside the code to work correctly, commands must be launched from the repository root that contains all the lab folders, so that paths like `DLA-Lab2/.../...` don't cause issues.
 
-### ++ IMPORTANT: for complete implementation and experimental analysis, read the pdf files for each laboratory, found in the folder with the same name (e.g. \DLA-Lab1\DLA-Lab1.pdf)++
+### ++ IMPORTANT: for complete implementation and experimental analysis, read the pdf files for each laboratory, found in the folder with the same name (e.g. \DLA-Lab1\DLA_Lab_1.pdf)++
 
 
 # Lab. 1: From Pixels to Semantics

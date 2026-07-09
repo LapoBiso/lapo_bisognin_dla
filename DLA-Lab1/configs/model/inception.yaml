@@ -1,0 +1,12 @@
+name: inception_v3
+num_cls: 43
+freeze_lrs: 0
+input_size: 299
+full_input: 342
+mode: bicubic
+
+head:
+  type: MLP
+  #only MLP case
+  activation: relu
+  hidden: [256,128]

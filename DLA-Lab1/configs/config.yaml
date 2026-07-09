@@ -1,0 +1,14 @@
+defaults:
+  - model: resnet50
+  - opt: adam
+  - loss: cross_entropy
+  - dataset: GTSRB
+  - train: default
+  - wandb: default
+  - experiments: experiment_3_2
+  - _self_
+
+hydra:
+  run:
+    dir: .
+  output_subdir: null

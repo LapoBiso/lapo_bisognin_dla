@@ -1,0 +1,12 @@
+name: convnext_base
+num_cls: 43
+freeze_lrs: 0
+input_size: 224
+full_input: 256
+mode: bilinear
+
+head:
+  type: MLP
+  #only MLP case
+  activation: relu
+  hidden: [256,128]

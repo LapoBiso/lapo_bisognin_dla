@@ -1,0 +1,4 @@
+name: experiment_1_1
+plot_cls: True
+plot_distribution: True
+output_path: DLA-Lab1/Lab1_outputs/exercise_1/

@@ -1,0 +1,25 @@
+project_name: "DLA-Lab2"
+run_name: "Experiment_1"
+
+model:
+  checkpoint:  "openai/clip-vit-base-patch32" #"distilbert/distilbert-base-uncased"
+  task: "feature-extraction"
+
+opt:
+  lr: 2e-5
+
+exercise_1:
+  read_data: False
+  build_classifier: True
+
+exercise_3:
+  k: 10
+  ret_path: DLA-Lab2/retrieval_results/
+
+dataset:
+  name:   "jxie/flickr8k" #"cornell-movie-review-data/rotten_tomatoes"
+  ft_path: "DLA-Lab2/features/image_ft.pt"
+
+training:
+  batch_size: 64
+  epochs: 10

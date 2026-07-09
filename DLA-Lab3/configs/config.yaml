@@ -1,0 +1,44 @@
+project_name: "RL_cartpole"
+run_name: "cartpole"
+checkpoint_dir: "DLA-Lab3/checkpoints"
+
+policy:
+  temperature: 1
+  gamma: 0.99
+
+opt:
+  name: "adam"
+  lr: 1e-3
+
+exercise_1:
+  maxIt: 1500
+  lenEp: 500
+  N: 50
+  M: 10
+  train: True
+  eval: False
+  baseline: False
+  eval_seed: 1000
+  train_seed: 4000
+  warmup: 200
+  min_delta: 5
+
+exercise_2:
+  train: True
+  eval: False
+
+exercise_3:
+  epsilon: 1.0
+  eps_min: 0.05
+  eps_decay_step: 50000
+  capacity: 50000
+  maxIt: 500
+  lenEp: 1000
+  batch_size: 128
+  target_update: 1000 #2000
+  warmup: 2000
+  N: 20
+  M: 10
+  model: deepq
+  train: False
+  eval: True

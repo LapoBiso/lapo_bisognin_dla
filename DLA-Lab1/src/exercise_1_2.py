@@ -16,17 +16,15 @@ import argparse
 def main(cfg: DictConfig):
     print(OmegaConf.to_yaml(cfg))
     cfg_dict = OmegaConf.to_container(cfg, resolve=True)
-
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
-    with wandb.init(project=cfg.wandb.project, name=cfg.wandb.run_name, config=cfg_dict) as run:
-        model,_,_ = model_builder.build_baseline(cfg, device)
-        ds_path = os.path.join(cfg.dataset.get('ds_path'), cfg.dataset.get('name'))
-        dl_train, dl_val, dl_test = data_setup.build_std_dataloader(cfg, ds_path)
-        tr_ft, tr_cls = engine.extract_fts(model, dl_train, device)
-        test_ft, test_cls = engine.extract_fts(model, dl_test, device)
-        svc = SVC(kernel='linear')
-        svc.fit(tr_ft, tr_cls)
-        print(classification_report(svc.predict(test_ft), test_cls))
+    model,_,_ = model_builder.build_baseline(cfg, device)
+    ds_path = os.path.join(cfg.dataset.get('ds_path'), cfg.dataset.get('name'))
+    dl_train, dl_val, dl_test = data_setup.build_std_dataloader(cfg, ds_path)
+    tr_ft, tr_cls = engine.extract_fts(model, dl_train, device)
+    test_ft, test_cls = engine.extract_fts(model, dl_test, device)
+    svc = SVC(kernel='linear')
+    svc.fit(tr_ft, tr_cls)
+    print(classification_report(svc.predict(test_ft), test_cls))
 
 if __name__== "__main__":
     main()

@@ -35,10 +35,19 @@ if __name__ == "__main__":
     parser.add_argument("--config",     type=str,   default="DLA-Lab3/configs/config.yaml")
     parser.add_argument("--lr",         type=float, default=None)
     parser.add_argument("--run_name", type  = str, default = "CartPole")
+    parser.add_argument("--train", type  = bool, default = True)
+    parser.add_argument("--eval", type  = bool, default = True)
+    parser.add_argument("--temp", type  = float, default = True)
+    parser.add_argument("--gamma", type  = float, default = True)
+
     args = parser.parse_args()
 
     cfg = OmegaConf.load(args.config)
 
     if args.lr is not None: cfg.opt.lr = args.lr
     if args.run_name is not None: cfg.run_name = args.run_name
+    if args.train is not None: cfg.exercise_2.train = args.train
+    if args.eval is not None: cfg.exercise_2.eval = args.eval
+    if args.temp is not None: cfg.policy.temperature = args.temp
+    if args.gamma is not None: cfg.policy.gamma = args.gamma
     main(cfg)

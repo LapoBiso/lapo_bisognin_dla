@@ -4,5 +4,4 @@ cls: 1
 print_similarities: True
 mAP: True
 pr_curve: True
-heatmap: True
 output_path: DLA-Lab1/Lab1_outputs/exercise_3/

@@ -52,7 +52,7 @@ def build_head(cfg, model, fc_in):
 
 def freeze_layers(cfg, model):
     """
-    freeze model layers training
+    freeze model backbone resnet layers training
     """
     layers = ["layer1"]
     freeze = cfg.model.get("freeze_lrs")

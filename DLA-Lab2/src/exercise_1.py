@@ -42,7 +42,12 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=str, default="DLA-Lab2/configs/config.yaml")
+    parser.add_argument("--read_data", type  = str, default = False)
+    parser.add_argument("--build_classifier", type  = str, default = True)
     args = parser.parse_args()
     cfg = OmegaConf.load(args.config)
+
+    if args.read_data is not None: cfg.exercise_1.read_data = args.read_data
+    if args.read_data is not None: cfg.exercise_1.build_classifier = args.build_classifier
 
     main(cfg)

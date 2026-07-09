@@ -6,7 +6,7 @@ full_input: 256
 mode: bilinear
 
 head:
-  type: MLP
+  type: Linear
   #only MLP case
   activation: relu
   hidden: [256,128]

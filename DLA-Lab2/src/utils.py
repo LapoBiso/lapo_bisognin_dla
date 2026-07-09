@@ -2,6 +2,7 @@ import collections
 import numpy as np
 from sklearn.metrics import accuracy_score, classification_report, f1_score, precision_score, recall_score
 import wandb
+import torch
 
 def count_labels(ds_dict):
     """

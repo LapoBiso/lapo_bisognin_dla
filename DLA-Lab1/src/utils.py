@@ -207,30 +207,3 @@ def nearest_mean_classifier(query_features, class_means):
     sims = q_norm @ p_norm.T
     return sims.argmax(dim=1) 
 
-def plot_hm_conf_mat(labels_query, preds, path):
-    """
-    plot class prediction heatmap made by nmc
-    """
-    group_order = (
-    list(range(0, 9))# speed limits
-    + list(range(9, 18))# prohibitions
-    + list(range(18, 32))# warnings
-    + list(range(32, 41))# directions
-    + list(range(41,43))# rule end
-    + [12, 13, 14, 17]# unique
-    )
-
-    cm = confusion_matrix(labels_query, preds, labels=group_order)
-    sum = cm.sum(axis=1, keepdims=True)
-    cm_norm = np.divide(cm, sum, out = np.zeros_like(cm, dtype=float), where = sum != 0)
-    fig, ax = plt.subplots(figsize=(12, 10))
-    sns.heatmap(cm_norm, ax=ax, cmap='Blues', square=True,
-                xticklabels=group_order, yticklabels=group_order)
-    group_boundaries = [9, 17, 31, 40, 42]
-    for b in group_boundaries:
-        ax.axhline(b, color='red', linewidth=0.5)
-        ax.axvline(b, color='red', linewidth=0.5)
-    ax.set_title('Confusion matrix (rows=true, cols=pred), grouped by semantic family')
-    if path is not None:
-        fig.savefig(path, dpi=150, bbox_inches='tight')
-    plt.close(fig)

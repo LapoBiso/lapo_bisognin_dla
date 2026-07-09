@@ -48,10 +48,6 @@ def main(cfg: DictConfig):
     accuracy = (preds == labels_query).float().mean().item()
     print(f'nearest mean classifier accuracy using {cfg.model.get('name')} as backbone is: {accuracy}')
 
-    if cfg.experiments.get('heatmap'):
-        out_hm_path = os.path.join(cfg.experiments.get('output_path'), "heatmap")
-        utils.plot_hm_conf_mat(labels_query, preds, out_hm_path)
-
 if __name__== "__main__":
     main()
     

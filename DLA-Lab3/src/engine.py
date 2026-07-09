@@ -19,6 +19,9 @@ OPTIMIZERS = {
 }
 
 def build_optimizer(params, cfg):
+    """
+    build optimizer based on configuration details
+    """
     name = cfg.opt.name.lower()
     if name not in OPTIMIZERS:
         raise ValueError(f"Unknown optimizer '{cfg.opt.name}', expected one of {list(OPTIMIZERS)}")
@@ -26,6 +29,9 @@ def build_optimizer(params, cfg):
 
 
 def compute_returns(rewards, gamma):
+    """
+    compute discounted return for reinforce algorithm
+    """
     returns = torch.zeros(len(rewards))
     G = 0.0
     for t in reversed(range(len(rewards))):
@@ -35,6 +41,9 @@ def compute_returns(rewards, gamma):
 
 
 def choose_action(cfg, obs, policy):
+    """
+    choose next action in a stochastic approach
+    """
     logits = policy(obs)
     dist = Categorical(logits=logits / cfg.policy.temperature)
     action = dist.sample()
@@ -43,6 +52,9 @@ def choose_action(cfg, obs, policy):
 
 
 def choose_action_deterministic(obs, policy):
+    """
+    choose next action in a deterministic approach
+    """
     with torch.no_grad():
         logits = policy(obs)
         action = torch.argmax(logits).item()
@@ -50,6 +62,9 @@ def choose_action_deterministic(obs, policy):
 
 
 def run_episode(cfg, env, policy, device, seed = None, deterministic = False):
+    """
+    run a single episode for reinforce algorithm
+    """
     obs, acts, rews, log_acts = [], [], [], []
     if seed is not None:
         s, info = env.reset(seed = seed)
@@ -72,6 +87,9 @@ def run_episode(cfg, env, policy, device, seed = None, deterministic = False):
     return torch.stack(obs), acts, rews, log_out
 
 def evaluate_reinforce(cfg, env_render, policy, episode, device):
+    """
+    evaluate policy performances
+    """
     if env_render:
         policy.eval()
         with torch.no_grad():
@@ -91,6 +109,9 @@ def evaluate_reinforce(cfg, env_render, policy, episode, device):
 
 
 def reinforce(cfg, env, policy, env_render, device):
+    """
+    reinforce algorithm without baseline
+    """
     opt = build_optimizer(policy.parameters(), cfg)
     run_rews = [0.0]
     best_rew = 0.0
@@ -124,6 +145,9 @@ def reinforce(cfg, env, policy, env_render, device):
 
 
 def reinforce_baseline(cfg, env, policy, baseline, env_render, device):
+    """
+    reinforce algorithm with baseline
+    """
     opt_policy = build_optimizer(policy.parameters(), cfg)
     opt_baseline = build_optimizer(baseline.parameters(), cfg)
     run_rews = [0.0]
@@ -162,6 +186,9 @@ def reinforce_baseline(cfg, env, policy, baseline, env_render, device):
 
 
 def choose_deepQ_action(env, state, q_net, device, epsilon):
+    """
+    choose next action for deep q network
+    """
     if random.random() < epsilon:
         return env.action_space.sample()
     else:
@@ -171,11 +198,17 @@ def choose_deepQ_action(env, state, q_net, device, epsilon):
             return torch.argmax(q_values, dim = 1).item()
         
 def linear_epsilon(cfg, global_step):
+    """
+    epsilon linear decay
+    """
     frac = min(global_step / cfg.exercise_3.eps_decay_step, 1.0)
     return cfg.exercise_3.epsilon + frac * (cfg.exercise_3.eps_min - cfg.exercise_3.epsilon) 
 
 
 def deepQ_learning(cfg, env, q_net, t_net, replay, device, eval_seeds):
+    """
+    deeq Q network learning
+    """
     opt = build_optimizer(q_net.parameters(), cfg)
     epsilon = cfg.exercise_3.epsilon
     global_step = 0
@@ -246,6 +279,9 @@ def deepQ_learning(cfg, env, q_net, t_net, replay, device, eval_seeds):
             evaluate_DeepQ(cfg, env, q_net, device, eval_seeds, global_step=global_step)
 
 def evaluate_DeepQ(cfg, env, q_net, device, eval_seeds, global_step=None):
+    """
+    deep Q network action value function network evaluation
+    """
     q_net.eval()
     eval_returns = []
     eval_lengths = []
@@ -273,6 +309,9 @@ def evaluate_DeepQ(cfg, env, q_net, device, eval_seeds, global_step=None):
 
 
 def play_episode_DeepQ(cfg, env, q_net, device):
+    """
+    execute a single episode using trained action value function network
+    """
     q_net.eval()
     ep_reward = 0.0
     ep_steps = 0

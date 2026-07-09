@@ -25,7 +25,7 @@ def main(cfg: DictConfig):
     env = FrameStackObservation(env, stack_size=4)
     print(env.observation_space.shape)
 
-    if cfg.exercise_3.model == "deepq" and cfg.exercise_3.train:
+    if cfg.exercise_3.train:
         eval_seeds = [1000 + i for i in range(cfg.exercise_3.M)]
         with wandb.init(project=cfg.project_name, name=cfg.run_name, config=OmegaConf.to_container(cfg,resolve=True)):
             q_net = model_builder.DeepQAgent(env).to(device)
@@ -49,10 +49,27 @@ if __name__ == "__main__":
     parser.add_argument("--config",     type=str,   default="DLA-Lab3/configs/config.yaml")
     parser.add_argument("--lr",         type=float, default=None)
     parser.add_argument("--run_name", type  = str, default = "CarRacing")
+    parser.add_argument("--train", type  = bool, default = True)
+    parser.add_argument("--eval", type  = bool, default = False)
+    parser.add_argument("--eps_decay_step", type=int,   default=None)
+    parser.add_argument("--capacity",       type=int,   default=None)
+    parser.add_argument("--maxIt",          type=int,   default=None)
+    parser.add_argument("--batch_size",     type=int,   default=None)
+    parser.add_argument("--gamma",  type=float,   default=None)
+    parser.add_argument("--target_update",  type=int,   default=None)
+
     args = parser.parse_args()
 
     cfg = OmegaConf.load(args.config)
 
     if args.lr is not None: cfg.opt.lr = args.lr
     if args.run_name is not None: cfg.run_name = args.run_name
+    if args.train is not None: cfg.exercise_3.train = args.train
+    if args.eval is not None: cfg.exercise_3.eval = args.eval
+    if args.eps_decay_step is not None: cfg.exercise_3.eps_decay_step = args.eps_decay_step
+    if args.capacity is not None: cfg.exercise_3.capacity = args.capacity
+    if args.maxIt is not None: cfg.exercise_3.maxIt = args.maxIt
+    if args.batch_size is not None: cfg.exercise_3.batch_size = args.batch_size
+    if args.gamma is not None: cfg.policy.gamma = args.gamma
+    if args.target_update is not None: cfg.exercise_3.target_update = args.target_update
     main(cfg)

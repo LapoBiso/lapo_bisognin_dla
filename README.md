@@ -78,7 +78,7 @@ Where:
 - `experiments.plot_distribution` generates information about the class distribution in the dataset through histograms and saves it in the same folder mentioned above
 
 ### Exercise 1.2
-In the file `DLA-Lab1/src/exercise_1_2.py` you can view the code that builds a **baseline model** that sends the computed features to an **SVM**
+In the file `DLA-Lab1/src/exercise_1_2.py` it is possible to view the code that builds a **baseline model** that sends the computed features to an **SVM**
 ```bash
 python DLA-Lab1/src/exercise_1_2.py
 ```
@@ -90,35 +90,36 @@ python DLA-Lab1/src/exercise_1_2.py model=resnet50
 ```
 
 ### Exercise 1.3
-In the file `DLA-Lab1/src/exercise_1_3.py` you can view the code that **trains and evaluates the fine-tuned model** on the classification task for the classes of the input dataset.
+In the file `DLA-Lab1/src/exercise_1_3.py` it is possible to view the code that **trains and evaluates the fine-tuned model** on the classification task for the classes of the input dataset.
 ```bash
-python DLA-Lab1/src/exercise_1_3.py model=resnet50 model.head.type=Linear model.freeze_lrs=0
+python DLA-Lab1/src/exercise_1_3.py model=resnet50 model.head.type=Linear model.freeze_lrs=0 wandb.run_name=resnet50_Linear
 ```
 This will log to **wandb** to allow observation of accuracy and loss metrics during training, validation, and finally testing on the trained model.
 Among the configurations that can be modified from the command line:
 - `model=resnet50` defines the chosen backbone
 - `model.head.type=Linear` defines the type of head used, you can choose between `[Linear, MLP]`
 - `model.freeze_lrs=0` defines whether the backbone will have frozen layers or not during fine-tuning **WARNING: use only with resnet-type backbones**
+- `wand.run_name=resnet50_Linear` defines wandb run name
 
 **Examples of alternative runs**:
 ```bash
-python DLA-Lab1/src/exercise_1_3.py model=inception model.head.type=MLP model.freeze_lrs=0
+python DLA-Lab1/src/exercise_1_3.py model=resnet101 model.head.type=MLP model.freeze_lrs=0 wandb.run_name=resnet101_MLP
 ```
 ```bash
-python DLA-Lab1/src/exercise_1_3.py model=resnet18 model.head.type=Linear model.freeze_lrs=1
+python DLA-Lab1/src/exercise_1_3.py model=resnet18 model.head.type=Linear model.freeze_lrs=1 wandb.run_name=resnet18_Linear
 ```
 
 ### Exercise 2
 **Code abstraction** was achieved through **Hydra**; besides the models, **it is possible to instantiate different optimizers or losses** among those available in `DLA-Lab1/configs/opt` and `DLA-Lab1/configs/loss`, for example:
 ```bash
-python DLA-Lab1/src/exercise_1_3.py model=resnet18 model.head.type=Linear model.freeze_lrs=0 opt=adamw loss=multi_margin
+python DLA-Lab1/src/exercise_1_3.py model=resnet18 model.head.type=Linear model.freeze_lrs=0 opt=adamw loss=multi_margin wandb.run_name=resnet18_Linear_adamw
 ```
 Experiment **logging** is done on **wandb**.
 
 ### Exercise 3.2
 In the file `DLA-Lab1/src/exercise_3_2.py` you can view the code that performs the **image retrieval** task and then implements and runs the **Nearest Mean Classifier (NMC)**
 ```bash
-python DLA-Lab1/src/exercise_3_2.py model=resnet18 model.head.type=Linear experiments=experiment_3_2 experiments.K=50 experiments.cls=1
+python DLA-Lab1/src/exercise_3_2.py model=inception model.head.type=Linear experiments=experiment_3_2 experiments.K=50 experiments.cls=1
 ```
 where:
 - `experiments.cls=1` is the reference class on which to display the highest similarities

@@ -1,0 +1,3 @@
+_target_: torch.nn.MultiMarginLoss
+p: 1
+margin: 1.0

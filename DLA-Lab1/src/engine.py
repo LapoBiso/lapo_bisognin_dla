@@ -46,7 +46,7 @@ def validation_step(model, dl, loss, device = 'cpu'):
 
 def train(cfg, model, dl_train, dl_val, dl_test, device='cpu'):
     """
-    train fine-tuned model
+    train and evaluate fine-tuned model
     """
     epochs = cfg.train.get('epochs')
     loss = hydra.utils.instantiate(cfg.loss)

@@ -2,14 +2,14 @@ project_name: "DLA-Lab2"
 run_name: "Experiment_1"
 
 model:
-  checkpoint:  "openai/clip-vit-base-patch32" #"distilbert/distilbert-base-uncased"
+  checkpoint:   "distilbert/distilbert-base-uncased" #"openai/clip-vit-base-patch32"
   task: "feature-extraction"
 
 opt:
-  lr: 2e-5
+  lr: 1e-5
 
 exercise_1:
-  read_data: False
+  read_data: True
   build_classifier: True
 
 exercise_3:
@@ -17,7 +17,7 @@ exercise_3:
   ret_path: DLA-Lab2/retrieval_results/
 
 dataset:
-  name:   "jxie/flickr8k" #"cornell-movie-review-data/rotten_tomatoes"
+  name:   "cornell-movie-review-data/rotten_tomatoes" #"jxie/flickr8k"
   ft_path: "DLA-Lab2/features/image_ft.pt"
 
 training:

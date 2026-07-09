@@ -18,9 +18,11 @@ def main(cfg: DictConfig):
     download = not data_setup.is_dataset_present(ds_path)
     transform = T.Compose([T.ToImage(), T.ToDtype(torch.float32, scale=True)])
     ds_train = GTSRB(cfg.dataset.get('ds_path'), split="train", download=True, transform=transform)
+
     if cfg.experiments.get('plot_cls'):
         classes = utils.sample_classes(ds_train)
         utils.plot_dataset(classes, cfg.experiments.get('output_path'))
+        
     if cfg.experiments.get('plot_distribution'):
         labels = torch.tensor([label for _,label in ds_train])
         utils.data_distribution(labels)

@@ -62,12 +62,16 @@ if __name__ == "__main__":
     parser.add_argument("--config",     type=str,   default="DLA-Lab2/configs/config.yaml")
     parser.add_argument("--lr",         type=float, default=None)
     parser.add_argument("--batch_size", type=int,   default=None)
+    parser.add_argument("--checkpoint",  type=str, default="distilbert/distilbert-base-uncased")
+    parser.add_argument("--dataset", type=str,   default="cornell-movie-review-data/rotten_tomatoes")
     parser.add_argument("--epochs",     type=int,   default=None)
     args = parser.parse_args()
 
     cfg = OmegaConf.load(args.config)
 
     if args.lr         is not None: cfg.opt.lr         = args.lr
+    if args.checkpoint is not None: cfg.model.checkpoint = args.checkpoint
+    if args.dataset     is not None: cfg.dataset.name    = args.dataset
     if args.batch_size is not None: cfg.training.batch_size = args.batch_size
     if args.epochs     is not None: cfg.training.epochs     = args.epochs
 

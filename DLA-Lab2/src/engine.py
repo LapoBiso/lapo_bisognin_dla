@@ -1,8 +1,6 @@
 import torch
 import data_setup
 
-CAPTION_COLS = ['caption_0', 'caption_1', 'caption_2', 'caption_3', 'caption_4']
-
 def extract_ft(ds_dict, extractor):
     """
     execute feature extraction for classification task
@@ -19,6 +17,9 @@ def extract_ft(ds_dict, extractor):
     return feats, tr_labels, val_feats, val_labels, test_feats, test_labels
 
 def extract_clip_ft(cfg, ds_dict, processor, model, device):
+    """
+    execute feature extraction for clip
+    """
     images_ft = []
     captions_ft = []
     batch_size = cfg.training.batch_size
@@ -40,6 +41,9 @@ def extract_clip_ft(cfg, ds_dict, processor, model, device):
         
 
 def get_text_features(prompt, processor, model, device):
+    """
+    compute prompt features
+    """
     inputs = processor(
         text=prompt,
         return_tensors='pt',
@@ -56,6 +60,9 @@ def get_text_features(prompt, processor, model, device):
     return text_ft
 
 def retrieve_images(cfg, query, images):
+    """
+    compute cosine similarity between query prompt and dataset images
+    """
     query_norm = query / query.norm(dim = -1, keepdim = True)
     images_norm = images / images.norm(dim = -1, keepdim = True)
     similarity = query_norm @ images_norm.T

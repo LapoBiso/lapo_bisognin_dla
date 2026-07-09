@@ -1,3 +1,4 @@
+import numpy as np
 import torch
 
 
@@ -5,7 +6,7 @@ import os
 from omegaconf import DictConfig, OmegaConf
 import argparse
 
-import data_setup, engine
+import data_setup, engine, utils
 from transformers import CLIPModel, CLIPProcessor
 
 def main(cfg: DictConfig):
@@ -27,14 +28,21 @@ def main(cfg: DictConfig):
     for rank, idx in enumerate(topk):
         image = ds_train[idx.item()]['image']
         image.save(f'DLA-Lab2/retrieval_results/rank_{rank}.jpg')
-        images.append(image.cpu().np)
-    return images
+        images.append(image)
 
 if __name__ == "__main__":
-
     parser = argparse.ArgumentParser()
-    parser.add_argument("--config", type=str, default="DLA-Lab2/configs/config.yaml")
+    parser.add_argument("--config",     type=str,   default="DLA-Lab2/configs/config.yaml")
+    parser.add_argument("--checkpoint",  type=str, default="openai/clip-vit-base-patch32")
+    parser.add_argument("--dataset", type=str,   default="jxie/flickr8k")
+
     args = parser.parse_args()
+
     cfg = OmegaConf.load(args.config)
+
+    if args.checkpoint is not None: cfg.model.checkpoint = args.checkpoint
+    if args.dataset     is not None: cfg.dataset.name    = args.dataset
+
+
 
     main(cfg)

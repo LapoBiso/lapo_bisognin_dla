@@ -17,7 +17,6 @@ exercise_1:
   M: 10
   train: True
   eval: False
-  baseline: False
   eval_seed: 1000
   train_seed: 4000
   warmup: 200
@@ -39,6 +38,5 @@ exercise_3:
   warmup: 2000
   N: 20
   M: 10
-  model: deepq
   train: False
   eval: True

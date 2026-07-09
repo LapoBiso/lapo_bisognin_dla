@@ -12,7 +12,18 @@ import argparse
 import utils, data_setup, model_builder, engine
 from datasets import load_dataset, get_dataset_split_names
 from transformers import CLIPModel, CLIPProcessor
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--checkpoint", type=str, default=None, help="CLIP model checkpoint, e.g. openai/clip-vit-base-patch32")
+    parser.add_argument("--dataset", type=str, default=None, help="Dataset name, e.g. jxie/flickr8k")
+    return parser.parse_args()
+
+args = parse_args()
 _cfg = OmegaConf.load("DLA-Lab2/configs/config.yaml")
+if args.checkpoint:
+    _cfg.model.checkpoint = args.checkpoint
+if args.dataset:
+    _cfg.dataset.name = args.dataset
 
 def image_retrieval(text, cfg = _cfg):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
